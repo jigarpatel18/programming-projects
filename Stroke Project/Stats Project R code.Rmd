@@ -1,5 +1,5 @@
 ---
-title: 'Stats Project R code '
+title: 'Stroke Project R code '
 output:
   pdf_document: default
   html_document: default
@@ -11,6 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
+# For logistic regression, we plan to look at  the correlation between 5 categorical variables and one response variable, to see which variable has the highest p-value showing the most correlation with stroke, and the variable with the lowest AIC to see which variable is not a good predictor of stroke. 
+# The 5 variables we will be testing are hypertension, heart disease, smoking status, bmi, and avg glucose level.
+# To complete this analysis, we have to first create a model with our wanted variables. We will first clean our dataset of missing values and N/As and then make values for all the variables to make the model readable. 
 
 
 ```{r load-data}
@@ -48,6 +51,8 @@ avg_glucose_level <- as.factor(clean_stroke_data$avg_glucose_level)
 ```
 
 
+# This is a summary stat of the glm(stroke_model). We see the a wide range of p-values that all show how the significance of the variable correlating to the response variable stroke. After looking through each p-value, we see hypertension, heart disease, and average glucose level having the smallest p-values, showing a more significant correlation to stroke than the other variables. 
+
 ```{r}
 stroke_model <- glm(stroke  ~ hypertension + 
 avg_glucose_level +
@@ -58,11 +63,22 @@ summary(stroke_model)
 ```
 
 
+
+# We then want to check the model for any variables that may have AIC’s lower than the model AIC. For this, forward or backward selection may be used, but in this case we will do backward selection to simplify the model. 
+# reduced_stroke_model <- step(stroke_model, direction = "backward")
+# This function will run the model once to weed out any variables that don't fit the model or lower the model AIC. It will then run the model one more time to check if any other variables are lower than the updated stroke_model AIC.
+
+
 ```{r}
 reduced_stroke_model <- step(stroke_model, direction =
 "backward")
 
 ```
+# We can see that bmi reduced the model AIC, because it had an AIC value that was smaller than the model AIC. Therefore it should be removed from the model entirely. 
+
+#We then see that no other variable has an AIC lower than the model AIC and now have a fit logistic regression model for stroke. 
+
+#From our findings through logistic regression, we see that BMI is not a good enough predictor for stroke, and that heart disease, average glucose level and especially hypertension, are good predictors for stroke. 
 
 
 ```{r}
@@ -81,4 +97,20 @@ predict(reduced_stroke_model, newdata = new_data, type = "response" )
 new_data <- data.frame(heart_disease = 1, hypertension = 1, avg_glucose_level = 250, smoking_status = "smokes")
 predict(reduced_stroke_model, newdata = new_data, type = "response" )
 ```
+#What is the predicted probability of a person who has never smoked, has no hypertension, average glucose levels, and has heart disease, of having a stroke? 
+#Probability of having a stroke is 0.1232.
+
+#What is the predicted probability of a person who has never smoked, has hypertension, high glucose levels, and has heart disease, of having a stroke? 
+#Probability of having a stroke is 0.2597.
+
+#What is the predicted probability of a person who has smoked, has no hypertension, low glucose levels, and no heart disease, of having a stroke? 
+#Probability of having a stroke is 0.0258.
+
+#What is the predicted probability of a person who smokes, has hypertension, average glucose levels, and has heart disease, of having a stroke? 
+#Probability of having a stroke is 0.2025.
+
+#What is the predicted probability of a person who smokes, has hypertension, high glucose levels, and has heart disease, of having a stroke? 
+#Probability of having a stroke is 0.3158.
+
+#The probabilities being low may be due to the the fact that there is an imbalance in stroke patients to no stroke patients in the data set. Therefore, when predicting the probabilities of specific patients using the model, it may be biased towards predicting lower probabilities 
 
