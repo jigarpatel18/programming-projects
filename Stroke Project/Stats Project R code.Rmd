@@ -1,0 +1,84 @@
+---
+title: 'Stats Project R code '
+output:
+  pdf_document: default
+  html_document: default
+date: "2025-03-20"
+---
+
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+
+
+```{r load-data}
+stroke_data <- read.csv("~/Downloads/stroke (1).csv", header = TRUE)
+
+```
+
+
+
+```{r}
+bmi_category <- data.frame(bmi = c(18.5, 22.0, 30.5, 25.6, 17.0))
+
+# Convert bmi to numeric (if it's not already)
+stroke_data$bmi <- as.numeric(stroke_data$bmi)
+
+# Create BMI categories
+stroke_data$BMI_category <- cut(stroke_data$bmi,
+                                breaks = c(-Inf, 18.5, 24.9, 29.9, Inf),
+                                labels = c("Underweight", "Normal weight", "Overweight", "Obesity"),
+                                right = TRUE)
+```
+
+
+```{r}
+clean_stroke_data <- na.omit(stroke_data)
+
+
+hypertension <- as.factor(clean_stroke_data$hypertension)
+heart_disease <- as.factor(clean_stroke_data$heart_disease)
+smoking_status <- as.factor(clean_stroke_data$smoking_status)
+bmi <- as.factor(clean_stroke_data$bmi_category)
+avg_glucose_level <- as.factor(clean_stroke_data$avg_glucose_level)
+
+
+```
+
+
+```{r}
+stroke_model <- glm(stroke  ~ hypertension + 
+avg_glucose_level +
+bmi + smoking_status + heart_disease, data = 
+clean_stroke_data) 
+summary(stroke_model)
+
+```
+
+
+```{r}
+reduced_stroke_model <- step(stroke_model, direction =
+"backward")
+
+```
+
+
+```{r}
+new_data <- data.frame(heart_disease = 1, hypertension = 0, avg_glucose_level = 90, smoking_status = "never smoked")
+predict(reduced_stroke_model, newdata = new_data, type = "response" )
+
+new_data <- data.frame(heart_disease = 1, hypertension = 1, avg_glucose_level = 250, smoking_status = "never smoked")
+predict(reduced_stroke_model, newdata = new_data, type = "response" )
+
+new_data <- data.frame(heart_disease = 0, hypertension = 0, avg_glucose_level = 60, smoking_status = "formerly smoked")
+predict(reduced_stroke_model, newdata = new_data, type = "response" )
+
+new_data <- data.frame(heart_disease = 1, hypertension = 1, avg_glucose_level = 90, smoking_status = "smokes")
+predict(reduced_stroke_model, newdata = new_data, type = "response" )
+
+new_data <- data.frame(heart_disease = 1, hypertension = 1, avg_glucose_level = 250, smoking_status = "smokes")
+predict(reduced_stroke_model, newdata = new_data, type = "response" )
+```
+
