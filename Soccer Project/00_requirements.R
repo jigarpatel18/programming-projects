@@ -1,4 +1,4 @@
-# Required packages to run the repository
+## Required packages to run the repository
 packages <- c(
   "randomForest", "lubridate", "forcats", "stringr", "purrr", "tidyr",
   "tibble", "ggplot2", "tidyverse", "dplyr", "readr", "rmarkdown",

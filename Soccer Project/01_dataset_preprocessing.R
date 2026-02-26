@@ -1,5 +1,5 @@
 
-# This function's main goal is to clean the wc performance .csv from: https://github.com/JGravier/soccer-elo/blob/main/csv/ranking_soccer_1901-2023.csv
+## This function's main goal is to clean the wc performance .csv from: https://github.com/JGravier/soccer-elo/blob/main/csv/ranking_soccer_1901-2023.csv
 # It does this by only selecting the necessary columns that we need, and then also using RegEx to properly
 # extract the proper information from each of the columns
 
