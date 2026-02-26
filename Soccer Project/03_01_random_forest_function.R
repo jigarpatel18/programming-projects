@@ -1,7 +1,7 @@
 
 source("00_requirements.R")
 
-# This function is the main function for the Random Forest model. It takes in a year, and then predicts the match count on said year.
+## This function is the main function for the Random Forest model. It takes in a year, and then predicts the match count on said year.
 # Additionally, it calculates absolute accuracy statistics and also creates a plot of its error(s) in predicting.
 count_match_prediction <- function(year) {
   library(randomForest)

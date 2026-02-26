@@ -8,7 +8,7 @@ editor_options:
   markdown: 
     wrap: 72
 ---
-These are my contributions to the project.
+## These are my contributions to the project.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
