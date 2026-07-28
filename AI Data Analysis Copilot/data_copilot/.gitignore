@@ -1,0 +1,18 @@
+# Ignore the following files and directories
+
+.env
+service_account.json
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# macOS
+.DS_Store
+
+# datasets 
+datasets/*
+!datasets/.gitkeep

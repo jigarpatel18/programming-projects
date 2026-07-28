@@ -1,0 +1,11 @@
+google-genai>=1.0.0        # Gemini API calls
+python-dotenv>=1.0.0       # Loads GEMINI_API_KEY from a .env file
+
+pandas>=2.2.0              # Parses CSV/XLSX into DataFrames
+openpyxl>=3.1.0            # Required for reading .xlsx files
+
+gspread>=6.0.0             # Read/write Google Sheets
+google-auth>=2.0.0         # Authentication for service accounts
+
+pytest>=8.0.0              # Unit testing
+pytest-mock>=3.14.0        # Mocking Gemini and Google Sheets calls
